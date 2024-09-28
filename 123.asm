@@ -1,11 +1,12 @@
 section .data
-    extern numerator_asm, denominator_asm, result_asm
-    extern a, b, d
+    numerator_asm dq 0         ; Переменные для хранения числителя, знаменателя и результата
+    denominator_asm dq 0
+    result_asm dq 0
+    a dq 5                     ; Пример значений для a, b и d
+    b dq 3
+    d dq 7
 
-section .text  
-    global calc_asm
-
-calc_asm:
+section .text
     ; Вычисление числителя: numerator_asm = 2 * d - 96 / a
     mov rax, [d]           ; rax = d
     shl rax, 1             ; rax = 2 * d
@@ -38,8 +39,10 @@ calc_asm:
     idiv rbx               ; rax = numerator_asm / denominator_asm
     mov [result_asm], rax  ; Сохранение результата
 
-    ret
+    jmp end                ; Переход в конец программы
 
 div_by_zero:
     mov qword [result_asm], -1  ; Если деление на 0, результат -1
-    ret
+
+end:
+    ; Программа завершена
