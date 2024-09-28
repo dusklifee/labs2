@@ -19,13 +19,15 @@ calc_asm:
     ; Вычисление знаменателя: denominator_asm = 34 / b - a + 1
     mov rax, 34            ; rax = 34
     mov rbx, [rel b]       ; rbx = b
+    cmp rbx, 0             ; Проверка деления на 0
+    je div_by_zero         ; Переход, если b == 0
     cqo                    ; Знаковое расширение для деления
     idiv rbx               ; rax = 34 / b
     sub rax, [rel a]       ; rax = (34 / b) - a
     add rax, 1             ; rax = (34 / b) - a + 1
     mov [rel denominator_asm], rax ; Сохранение результата знаменателя
 
-    ; Проверка на деление на 0
+    ; Проверка знаменателя на 0
     cmp rax, 0
     je div_by_zero         ; Переход если деление на 0
 
