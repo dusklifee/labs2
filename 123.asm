@@ -7,6 +7,9 @@ section .data
     d dq 7
 
 section .text
+    global _start              ; Указываем точку входа
+
+_start:
     ; Вычисление числителя: numerator_asm = 2 * d - 96 / a
     mov rax, [d]           ; rax = d
     shl rax, 1             ; rax = 2 * d
@@ -45,4 +48,7 @@ div_by_zero:
     mov qword [result_asm], -1  ; Если деление на 0, результат -1
 
 end:
-    ; Программа завершена
+    ; Системный вызов для выхода из программы
+    mov rax, 60            ; Системный вызов выхода (60 для x86_64)
+    xor rdi, rdi           ; Код завершения программы 0
+    syscall
